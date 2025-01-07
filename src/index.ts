@@ -3,8 +3,9 @@ import { swagger } from "@elysiajs/swagger";
 import { opentelemetry } from "@elysiajs/opentelemetry";
 import { serverTiming } from "@elysiajs/server-timing";
 
-import { note } from "./routes/note";
-import { user } from "./routes/user";
+import { note } from "./api/note/note.route";
+import { betterAuthView } from "./lib/auth/auth-view";
+import { userMiddleware, userInfo } from "./middlewares/auth-middleware";
 
 const app = new Elysia()
   .use(opentelemetry())
@@ -14,6 +15,9 @@ const app = new Elysia()
     if (code === "NOT_FOUND") return "Not Found :(";
     console.error(error);
   })
-  .use(user)
   .use(note)
-  .listen(3000);
+  .derive(({ request }) => userMiddleware(request))
+  .all("/api/auth/*", betterAuthView)
+  .get("/user", ({ user, session }) => userInfo(user, session));
+
+app.listen(3000);
