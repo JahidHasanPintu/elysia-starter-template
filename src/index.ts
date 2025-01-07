@@ -1,7 +1,19 @@
 import { Elysia } from "elysia";
+import { swagger } from "@elysiajs/swagger";
+import { opentelemetry } from "@elysiajs/opentelemetry";
+import { serverTiming } from "@elysiajs/server-timing";
 
-const app = new Elysia().get("/", () => "Hello Elysia").listen(3000);
+import { note } from "./routes/note";
+import { user } from "./routes/user";
 
-console.log(
-  `🦊 Elysia is running at ${app.server?.hostname}:${app.server?.port}`
-);
+const app = new Elysia()
+  .use(opentelemetry())
+  .use(swagger())
+  .use(serverTiming())
+  .onError(({ error, code }) => {
+    if (code === "NOT_FOUND") return "Not Found :(";
+    console.error(error);
+  })
+  .use(user)
+  .use(note)
+  .listen(3000);
