@@ -9,6 +9,7 @@ services:
       - NODE_ENV=production
       - OTEL_EXPORTER_OTLP_ENDPOINT=http://tracing:4318
       - OTEL_EXPORTER_OTLP_PROTOCOL=http/protobuf
+      - DATABASE_URL=postgresql://${DB_USER}:${DB_PASSWORD}@${DB_HOST}:${DB_PORT}/${DB_NAME}
     networks:
       - api-network
     depends_on:
@@ -20,37 +21,16 @@ services:
       - COLLECTOR_ZIPKIN_HOST_PORT=:9411
       - COLLECTOR_OTLP_ENABLED=true
     ports:
-      # UI
       - "16686:16686"
-      # Zipkin compatible endpoint
-      - "9411:9411"
-      # OTLP gRPC
-      - "4317:4317"
-      # OTLP HTTP
-      - "4318:4318"
-      # Jaeger gRPC
-      - "14250:14250"
-      # Jaeger HTTP
-      - "14268:14268"
-      # Admin HTTP
-      - "14269:14269"
-      # Agent configs
-      - "5778:5778"
-      # Thrift compact
-      - "6831:6831/udp"
-      # Thrift binary
-      - "6832:6832/udp"
     networks:
       - api-network
 
   db:
     image: postgres:latest
     environment:
-      POSTGRES_USER: myusername
-      POSTGRES_PASSWORD: mypassword
-      POSTGRES_DB: mydatabase
-    ports:
-      - "5432:5432"
+      POSTGRES_USER: ${DB_USER}
+      POSTGRES_PASSWORD: ${DB_PASSWORD}
+      POSTGRES_DB: ${DB_NAME}
     volumes:
       - postgres_data:/var/lib/postgresql/data
     networks:
