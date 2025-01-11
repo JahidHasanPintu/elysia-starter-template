@@ -3,10 +3,10 @@ import { drizzleAdapter } from "better-auth/adapters/drizzle";
 import { db } from "../../db/index";
 import { openAPI } from "better-auth/plugins"
 import { user, account, verification, session } from "../../db/schema";
+import { sendMail } from "../mail";
 
 export const auth = betterAuth({
   database: drizzleAdapter(db, {
-    // We're using Drizzle as our database
     provider: "pg",
     schema: {
       user: user,
@@ -17,6 +17,24 @@ export const auth = betterAuth({
   }),
   emailAndPassword: {
     enabled: true, // If you want to use email and password auth
+    requireEmailVerification: false,
+    sendResetPassword: async ({ user, url }, request) => {
+      await sendMail({
+        to: user.email,
+        subject: "Reset your password",
+        text: `Click the link to reset your password: ${url}`,
+      });
+    },
+  },
+  emailVerification: {
+    sendVerificationEmail: async ({ user, url, token }, request) => {
+      await sendMail({
+        to: user.email,
+        subject: "Verify your email address",
+        text: `Click the link to verify your email: ${url}`,
+      });
+    },
+
   },
   plugins: [
     openAPI({
