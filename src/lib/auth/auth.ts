@@ -4,6 +4,9 @@ import { db } from "../../db/index";
 import { openAPI } from "better-auth/plugins"
 import { user, account, verification, session } from "../../db/schema";
 import { sendMail } from "../mail";
+import { renderToStaticMarkup } from "react-dom/server";
+import { createElement } from "react";
+import AuthEmail from "../../emails/auth";
 
 export const auth = betterAuth({
   database: drizzleAdapter(db, {
@@ -19,19 +22,23 @@ export const auth = betterAuth({
     enabled: true, // If you want to use email and password auth
     requireEmailVerification: false,
     sendResetPassword: async ({ user, url }, request) => {
+      const subject = "Reset your password";
+      const html = renderToStaticMarkup(createElement(AuthEmail, { message: subject, link: url }));
       await sendMail({
         to: user.email,
-        subject: "Reset your password",
-        text: `Click the link to reset your password: ${url}`,
+        subject: subject,
+        html: html,
       });
     },
   },
   emailVerification: {
     sendVerificationEmail: async ({ user, url, token }, request) => {
+      const subject = "Verify your email address";
+      const html = renderToStaticMarkup(createElement(AuthEmail, { message: subject, link: url }));
       await sendMail({
         to: user.email,
-        subject: "Verify your email address",
-        text: `Click the link to verify your email: ${url}`,
+        subject: subject,
+        html: html,
       });
     },
 
