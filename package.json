@@ -5,9 +5,13 @@
     "test": "echo \"Error: no test specified\" && exit 1",
     "dev": "bun run --watch src/index.ts",
     "email": "email dev --dir src/emails",
+    "db:studio": "drizzle-kit studio",
+    "db:generate": "drizzle-kit generate",
+    "db:migrate": "drizzle-kit migrate",
     "build": "bun build --compile --minify-whitespace --minify-syntax --target bun --outfile server ./src/index.ts"
   },
   "dependencies": {
+    "@elysiajs/cors": "^1.2.0",
     "@elysiajs/opentelemetry": "^1.2.0",
     "@elysiajs/server-timing": "^1.2.0",
     "@elysiajs/swagger": "^1.2.0",
