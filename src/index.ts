@@ -6,6 +6,7 @@ import { cors } from '@elysiajs/cors'
 import { note } from "./api/note/note.route";
 import { betterAuthView } from "./lib/auth/auth-view";
 import { userMiddleware, userInfo } from "./middlewares/auth-middleware";
+import { validateEnv } from "./lib/utils/env";
 
 const app = new Elysia()
   .use(cors())
@@ -23,6 +24,6 @@ const app = new Elysia()
   .use(note)
   .get("/user", ({ user, session }) => userInfo(user, session));
 
+validateEnv();
 app.listen(3000);
-
 console.log("Server is running on: http://localhost:3000")

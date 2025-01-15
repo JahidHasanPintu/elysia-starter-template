@@ -13,8 +13,8 @@ RUN bun install --frozen-lockfile
 # Copy source code
 COPY . .
 
-# Build the application
-RUN bun build ./src/index.ts --compile --outfile server
+# RUN DB Migrations and build
+RUN bun run db:migrateb && bun run build
 
 # Production stage
 FROM debian:bookworm-slim
