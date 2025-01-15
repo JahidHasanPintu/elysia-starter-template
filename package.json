@@ -6,6 +6,7 @@
     "dev": "bun run --watch src/index.ts",
     "email": "email dev --dir src/emails",
     "db:studio": "drizzle-kit studio",
+    "auth:generate": "bun x @better-auth/cli generate --config src/lib/auth/auth.ts --output src/db/schema.ts && drizzle-kit migrate",
     "db:check": "drizzle-kit check",
     "db:generate": "drizzle-kit generate",
     "db:migrate": "drizzle-kit migrate",

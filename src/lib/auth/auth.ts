@@ -18,6 +18,25 @@ export const auth = betterAuth({
       verification: verification
     }
   }),
+  rateLimit: {
+    window: 60,
+    max: 100,
+    storage: "database",
+    modelName: "rateLimit", //optional by default "rateLimit" is used
+    customRules: {
+      "/sign-in/email": {
+        window: 3600 * 12,
+        max: 10,
+      },
+      "/two-factor/*": async (request) => {
+        // custom function to return rate limit window and max
+        return {
+          window: 3600 * 12,
+          max: 10,
+        }
+      }
+    },
+  },
   emailAndPassword: {
     enabled: true, // If you want to use email and password auth
     requireEmailVerification: false,
