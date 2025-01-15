@@ -3,7 +3,7 @@ import { drizzleAdapter } from "better-auth/adapters/drizzle";
 import { db } from "../../db/index";
 import { openAPI } from "better-auth/plugins"
 import { user, account, verification, session } from "../../db/schema";
-import { sendMail } from "../mail";
+import { sendMail } from "../mail/mail";
 import { renderToStaticMarkup } from "react-dom/server";
 import { createElement } from "react";
 import AuthEmail from "../../emails/auth";

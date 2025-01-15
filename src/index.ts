@@ -27,7 +27,7 @@ const app = new Elysia()
   .all("/api/auth/*", betterAuthView)
   .use(note)
   .get("/user", ({ user, session }) => userInfo(user, session))
-  .get("/", () => "Server is Running")
+  .get("/", () => `${baseConfig.SERVICE_NAME} Server is Running`)
 
 validateEnv();
 app.listen(baseConfig.PORT);
