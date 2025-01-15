@@ -2,6 +2,10 @@ import { z } from 'zod';
 
 // Define the environment schema
 const envSchema = z.object({
+  // Base
+  PORT: z.string().max(5),
+  SERVICE_NAME: z.string(),
+
   // Database
   DATABASE_URL: z.string().url(),
 
@@ -9,7 +13,11 @@ const envSchema = z.object({
   MINIO_ACCESS_KEY: z.string(),
   MINIO_SECRET_KEY: z.string().min(8),
   MINIO_ENDPOINT_URL: z.string().url(),
-  MINIO_BUCKET_NAME: z.string().url(),
+  MINIO_BUCKET_NAME: z.string(),
+
+  // Auth
+  BETTER_AUTH_SECRET: z.string().min(32),
+  BETTER_AUTH_URL: z.string().url(),
 });
 
 // Create a type from the schema
@@ -42,7 +50,9 @@ export const validateEnv = (): EnvConfig => {
       if (path.startsWith('MINIO_')) {
         warningMessage += '\n   ⚠️  File storage functionality may not work properly';
       }
-
+      if (path.startsWith('BETTER_AUTH_')) {
+        warningMessage += '\n   ⚠️  Authentication functionality may not work properly';
+      }
       warnings.push(warningMessage);
     });
 
@@ -64,6 +74,15 @@ export const getConfig = (): EnvConfig => {
   return validateEnv();
 };
 
+
+export const getBaseConfig = (): Pick<EnvConfig, 'PORT' | 'SERVICE_NAME'> => {
+  const config = getConfig();
+  return {
+    PORT: config.PORT,
+    SERVICE_NAME: config.SERVICE_NAME,
+  };
+};
+
 // Optional: Export individual config getters with type safety
 export const getDbConfig = (): Pick<EnvConfig, 'DATABASE_URL'> => {
   const config = getConfig();
@@ -79,6 +98,14 @@ export const getMinioConfig = (): Pick<EnvConfig, 'MINIO_ACCESS_KEY' | 'MINIO_SE
     MINIO_SECRET_KEY: config.MINIO_SECRET_KEY,
     MINIO_ENDPOINT_URL: config.MINIO_ENDPOINT_URL,
     MINIO_BUCKET_NAME: config.MINIO_BUCKET_NAME,
+  };
+};
+
+export const getAuthConfig = (): Pick<EnvConfig, 'BETTER_AUTH_SECRET' | 'BETTER_AUTH_URL'> => {
+  const config = getConfig();
+  return {
+    BETTER_AUTH_SECRET: config.BETTER_AUTH_SECRET,
+    BETTER_AUTH_URL: config.BETTER_AUTH_URL,
   };
 };
 

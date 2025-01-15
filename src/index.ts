@@ -6,11 +6,15 @@ import { cors } from '@elysiajs/cors'
 import { note } from "./api/note/note.route";
 import { betterAuthView } from "./lib/auth/auth-view";
 import { userMiddleware, userInfo } from "./middlewares/auth-middleware";
-import { validateEnv } from "./lib/utils/env";
+import { getBaseConfig, validateEnv } from "./lib/utils/env";
+
+const baseConfig = getBaseConfig()
 
 const app = new Elysia()
   .use(cors())
-  .use(opentelemetry())
+  .use(opentelemetry({
+    "serviceName": baseConfig.SERVICE_NAME
+  }))
   .use(swagger({
     path: "/docs",
   }))
@@ -22,8 +26,9 @@ const app = new Elysia()
   .derive(({ request }) => userMiddleware(request))
   .all("/api/auth/*", betterAuthView)
   .use(note)
-  .get("/user", ({ user, session }) => userInfo(user, session));
+  .get("/user", ({ user, session }) => userInfo(user, session))
+  .get("/", () => "Server is Running")
 
 validateEnv();
-app.listen(3000);
-console.log("Server is running on: http://localhost:3000")
+app.listen(baseConfig.PORT);
+console.log(`Server is running on: http://127.0.0.1:${baseConfig.PORT}`)

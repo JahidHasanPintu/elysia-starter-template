@@ -29,6 +29,7 @@ yarn-error.log*
 .env.local
 .env.development.local
 .env.test.local
+.env.services
 .env.production.local
 
 # vercel
@@ -43,4 +44,3 @@ package-lock.json
 **/*.bun
 
 ./server
-./.storage_data
