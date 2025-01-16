@@ -59,8 +59,9 @@ CREATE TABLE "note" (
 	"id" text PRIMARY KEY NOT NULL,
 	"title" text,
 	"content" text,
-	"createdAt" timestamp DEFAULT now(),
+	"createdAt" timestamp DEFAULT now() NOT NULL,
 	"updatedAt" timestamp,
+	"deletedAt" timestamp,
 	"ownerId" text NOT NULL
 );
 --> statement-breakpoint

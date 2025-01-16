@@ -1,8 +1,7 @@
-import { Elysia, error, t } from "elysia";
-import { createNoteSchema, NoteSchema, successDeleteNoteResponse, successGetNoteResponse } from "./note.model";
+import { Elysia, t } from "elysia";
+import { createNoteSchema, deleteNoteResponses, getNoteResponses, NoteSchema } from "./note.model";
 import { NoteController } from "./note.controller";
 import { userMiddleware } from "../../../middlewares/auth-middleware";
-import { commonResponses } from "../../../lib/utils/common";
 
 export const noteRouter = new Elysia({
   prefix: "/note",
@@ -37,10 +36,7 @@ export const noteRouter = new Elysia({
         limit: t.Optional(t.Number()),
         offset: t.Optional(t.Number())
       }),
-      response:{
-        200: successGetNoteResponse,
-        ...commonResponses
-      },
+      response:getNoteResponses,
       detail:{
         "description":"Get all notes of the user",
         "summary":"Get all notes"
@@ -56,10 +52,7 @@ export const noteRouter = new Elysia({
       params:t.Object({
         id: t.String(),
       }),
-      response: {
-        200: successGetNoteResponse,
-        ...commonResponses
-      },
+      response: getNoteResponses,
       detail:{
         "description":"Get a note by Id",
         "summary":"Get a note"
@@ -73,10 +66,7 @@ export const noteRouter = new Elysia({
     },
     {
       body: createNoteSchema,
-      response: {
-        200: successGetNoteResponse,
-        ...commonResponses
-      },
+      response: getNoteResponses,
       detail:{
         "description":"Create a new note",
         "summary":"Create a note"
@@ -92,10 +82,7 @@ export const noteRouter = new Elysia({
       params:t.Object({
         id: t.String(),
       }),
-      response: {
-        200: successGetNoteResponse,
-        ...commonResponses
-      },
+      response: getNoteResponses,
       detail:{
         "description":"Update a note by Id",
         "summary":"Update a note"
@@ -110,10 +97,7 @@ export const noteRouter = new Elysia({
       params:t.Object({
         id: t.String(),
       }),
-      response: {
-        200: successDeleteNoteResponse,
-        ...commonResponses
-      },
+      response: deleteNoteResponses,
       detail:{
         "description":"Delete a note by Id",
         "summary":"Delete a note"
@@ -126,10 +110,7 @@ export const noteRouter = new Elysia({
       return await note.deleteAllNotes(user.id);
     },
     {
-      response: {
-        200: successDeleteNoteResponse,
-        ...commonResponses
-      },
+      response: deleteNoteResponses,
       detail:{
         "description":"Delete all notes of an user",
         "summary":"Delete all notes"

@@ -1,10 +1,10 @@
-import { and, eq, notExists } from "drizzle-orm";
+import { and, eq, isNull } from "drizzle-orm";
 import { db } from "../../../db";
 import { note } from "../../../db/schema/note";
-import { CreateNote } from "./note.model";
+import { CreateNoteType } from "./note.model";
 
 export class NoteController {
-  async createNote(new_note: CreateNote, ownerId: string) {
+  async createNote(new_note: CreateNoteType, ownerId: string) {
     const new_note_data = { ...new_note, ownerId: ownerId };
     const result = await db
       .insert(note)
@@ -35,7 +35,7 @@ export class NoteController {
         updatedAt: note.updatedAt,
       })
       .from(note)
-      .where(and(eq(note.ownerId, ownerId), notExists(note.deletedAt)))
+      .where(and(eq(note.ownerId, ownerId), isNull(note.deletedAt)))
       .limit(limit).offset(offset)
       .execute();
     return {
@@ -60,7 +60,7 @@ export class NoteController {
         and(
           eq(note.id, noteId),
           eq(note.ownerId, ownerId),
-          notExists(note.deletedAt)
+          isNull(note.deletedAt)
         )
       )
       .execute();
@@ -74,7 +74,7 @@ export class NoteController {
 
   async updateNoteById(
     noteId: string,
-    updated_note: CreateNote,
+    updated_note: CreateNoteType,
     ownerId: string
   ) {
     const new_note_data = { ...updated_note, updatedAt: new Date() };
@@ -85,7 +85,7 @@ export class NoteController {
         and(
           eq(note.id, noteId),
           eq(note.ownerId, ownerId),
-          notExists(note.deletedAt)
+          isNull(note.deletedAt)
         )
       )
       .returning({
@@ -113,7 +113,7 @@ export class NoteController {
         and(
           eq(note.id, noteId),
           eq(note.ownerId, ownerId),
-          notExists(note.deletedAt)
+          isNull(note.deletedAt)
         )
       )
       .execute();
@@ -129,7 +129,7 @@ export class NoteController {
     await db
       .update(note)
       .set({ deletedAt: new Date() })
-      .where(and(eq(note.ownerId, ownerId), notExists(note.deletedAt)))
+      .where(and(eq(note.ownerId, ownerId), isNull(note.deletedAt)))
       .execute();
     return {
       success: true,
