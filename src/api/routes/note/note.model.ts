@@ -1,6 +1,6 @@
 import { createSelectSchema } from "drizzle-typebox";
 import { t } from "elysia";
-import { note } from "../../db/schema/note";
+import { note } from "../../../db/schema/note";
 import { InferInsertModel, InferSelectModel } from "drizzle-orm";
 
 

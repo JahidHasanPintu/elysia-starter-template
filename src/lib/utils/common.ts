@@ -5,10 +5,8 @@ export const commonResponses = {
     {
       data: t.Null(),
       success: t.Boolean({ default: false }),
-      message: t.String({ default: "Bad Request" }),
-      error: t.String({
-        default: "Missing parameters, or invalid parameters.",
-      }),
+      message: t.String({ default: "" }),
+      error: t.Number({ default: 400 }),
     },
     {
       description:
@@ -19,10 +17,8 @@ export const commonResponses = {
     {
       data: t.Null(),
       success: t.Boolean({ default: false }),
-      message: t.String({ default: "Unauthorized" }),
-      error: t.String({
-        default: "User needs to sign in to access this resource",
-      }),
+      message: t.String({ default: "" }),
+      error: t.Number({ default: 401 }),
     },
     {
       description: "Unauthorized. Due to missing or invalid authentication.",
@@ -32,10 +28,8 @@ export const commonResponses = {
     {
       data: t.Null(),
       success: t.Boolean({ default: false }),
-      message: t.String({ default: "Forbidden" }),
-      error: t.String({
-        default: "User does not have permission to access this resource",
-      }),
+      message: t.String({ default: "" }),
+      error: t.Number({ default: 403 }),
     },
     {
       description:
@@ -46,8 +40,8 @@ export const commonResponses = {
     {
       data: t.Null(),
       success: t.Boolean({ default: false }),
-      message: t.String({ default: "Not Found" }),
-      error: t.String({ default: "Requested resource has not found" }),
+      message: t.String({ default: "" }),
+      error: t.Number({ default: 404 }),
     },
     {
       description: "Not Found. The requested resource was not found.",
@@ -57,10 +51,8 @@ export const commonResponses = {
     {
       data: t.Null(),
       success: t.Boolean({ default: false }),
-      message: t.String({ default: "Too Many Requests" }),
-      error: t.String({
-        default: "RUser has exceeded the rate limit. Try again later.",
-      }),
+      message: t.String({ default: "" }),
+      error: t.Number({ default: 429 }),
     },
     {
       description:
@@ -71,8 +63,8 @@ export const commonResponses = {
     {
       data: t.Null(),
       success: t.Boolean({ default: false }),
-      message: t.String({ default: "Internal Server Error" }),
-      error: t.String({ default: "Server faced an error" }),
+      message: t.String({ default: "" }),
+      error: t.Number({ default: 500 }),
     },
     {
       description:

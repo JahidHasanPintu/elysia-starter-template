@@ -1,6 +1,6 @@
 import { and, eq, notExists } from "drizzle-orm";
-import { db } from "../../db";
-import { note } from "../../db/schema/note";
+import { db } from "../../../db";
+import { note } from "../../../db/schema/note";
 import { CreateNote } from "./note.model";
 
 export class NoteController {

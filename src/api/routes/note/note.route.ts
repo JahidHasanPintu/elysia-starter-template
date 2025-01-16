@@ -1,8 +1,8 @@
 import { Elysia, error, t } from "elysia";
 import { createNoteSchema, NoteSchema, successDeleteNoteResponse, successGetNoteResponse } from "./note.model";
 import { NoteController } from "./note.controller";
-import { userMiddleware } from "../../middlewares/auth-middleware";
-import { commonResponses } from "../../lib/utils/common";
+import { userMiddleware } from "../../../middlewares/auth-middleware";
+import { commonResponses } from "../../../lib/utils/common";
 
 export const noteRouter = new Elysia({
   prefix: "/note",
@@ -18,6 +18,15 @@ export const noteRouter = new Elysia({
     note: NoteSchema,
   })
   .derive(({ request }) => userMiddleware(request))
+  .onError(({ error, code,  }) => {
+      console.error(error);
+      return {
+        message: "",
+        success: false,
+        data: null,
+        error: code.toString()
+      };
+  })
   .get(
     "",
     async ({ note, user, query}) => {
