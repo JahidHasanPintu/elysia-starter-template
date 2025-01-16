@@ -2,7 +2,7 @@ import { betterAuth } from "better-auth";
 import { drizzleAdapter } from "better-auth/adapters/drizzle";
 import { db } from "../../db/index";
 import { openAPI } from "better-auth/plugins"
-import { user, account, verification, session } from "../../db/schema";
+import { user, account, verification, session, rateLimit } from "../../db/schema/auth";
 import { sendMail } from "../mail/mail";
 import { renderToStaticMarkup } from "react-dom/server";
 import { createElement } from "react";
@@ -15,7 +15,8 @@ export const auth = betterAuth({
       user: user,
       session: session,
       account: account,
-      verification: verification
+      verification: verification,
+      rateLimit: rateLimit,
     }
   }),
   rateLimit: {

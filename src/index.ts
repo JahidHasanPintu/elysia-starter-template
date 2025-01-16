@@ -3,9 +3,8 @@ import { swagger } from "@elysiajs/swagger";
 import { opentelemetry } from "@elysiajs/opentelemetry";
 import { serverTiming } from "@elysiajs/server-timing";
 import { cors } from '@elysiajs/cors'
-import { note } from "./api/note/note.route";
+import { noteRouter } from "./api/note/note.route";
 import { betterAuthView } from "./lib/auth/auth-view";
-import { userMiddleware, userInfo } from "./middlewares/auth-middleware";
 import { getBaseConfig, validateEnv } from "./lib/utils/env";
 
 const baseConfig = getBaseConfig()
@@ -23,10 +22,8 @@ const app = new Elysia()
     if (code === "NOT_FOUND") return "Not Found :(";
     console.error(error);
   })
-  .derive(({ request }) => userMiddleware(request))
   .all("/api/auth/*", betterAuthView)
-  .use(note)
-  .get("/user", ({ user, session }) => userInfo(user, session))
+  .use(noteRouter)
   .get("/", () => `${baseConfig.SERVICE_NAME} Server is Running`)
 
 validateEnv();
