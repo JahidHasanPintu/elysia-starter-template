@@ -25,7 +25,7 @@ export class NoteController {
     };
   }
 
-  async getOwnerNotes(ownerId: string, limit:number=10, offset:number=0) {
+  async getOwnerNotes(ownerId: string, limit: number = 10, offset: number = 0) {
     const result = await db
       .select({
         id: note.id,
@@ -36,7 +36,8 @@ export class NoteController {
       })
       .from(note)
       .where(and(eq(note.ownerId, ownerId), isNull(note.deletedAt)))
-      .limit(limit).offset(offset)
+      .limit(limit)
+      .offset(offset)
       .execute();
     return {
       success: true,
@@ -60,14 +61,14 @@ export class NoteController {
         and(
           eq(note.id, noteId),
           eq(note.ownerId, ownerId),
-          isNull(note.deletedAt)
-        )
+          isNull(note.deletedAt),
+        ),
       )
       .execute();
     let successStatus = true;
-    if(result.length===0){
-      successStatus = false
-    };
+    if (result.length === 0) {
+      successStatus = false;
+    }
     return {
       success: successStatus,
       data: result,
@@ -79,7 +80,7 @@ export class NoteController {
   async updateNoteById(
     noteId: string,
     updated_note: CreateNoteType,
-    ownerId: string
+    ownerId: string,
   ) {
     const new_note_data = { ...updated_note, updatedAt: new Date() };
     const result = await db
@@ -89,8 +90,8 @@ export class NoteController {
         and(
           eq(note.id, noteId),
           eq(note.ownerId, ownerId),
-          isNull(note.deletedAt)
-        )
+          isNull(note.deletedAt),
+        ),
       )
       .returning({
         id: note.id,
@@ -117,8 +118,8 @@ export class NoteController {
         and(
           eq(note.id, noteId),
           eq(note.ownerId, ownerId),
-          isNull(note.deletedAt)
-        )
+          isNull(note.deletedAt),
+        ),
       )
       .execute();
     return {

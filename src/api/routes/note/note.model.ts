@@ -13,31 +13,34 @@ export type CreateNoteType = Pick<
   "title" | "content"
 >;
 
-export const createNoteSchema = t.Pick(NoteSchema, [
-  "title",
-  "content",
-]);
+export const createNoteSchema = t.Pick(NoteSchema, ["title", "content"]);
 
 export const getNoteResponses = {
-  200: t.Object({
-    success:t.Boolean({default:true}),
-    data: t.Array(NoteSchema),
-    error: t.Null(),
-    message: t.String()
-}, {
-    description:"Success"
-}) ,
-  ...commonResponses
-}
+  200: t.Object(
+    {
+      success: t.Boolean({ default: true }),
+      data: t.Array(NoteSchema),
+      error: t.Null(),
+      message: t.String(),
+    },
+    {
+      description: "Success",
+    },
+  ),
+  ...commonResponses,
+};
 
 export const deleteNoteResponses = {
-  200: t.Object({
-    success:t.Boolean({default:true}),
-    data: t.Null(),
-    error: t.Null(),
-    message: t.String({default:"Note deletion succesful"})
-}, {
-    description:"Success"
-}),
-  ...commonResponses
-}
+  200: t.Object(
+    {
+      success: t.Boolean({ default: true }),
+      data: t.Null(),
+      error: t.Null(),
+      message: t.String({ default: "Note deletion succesful" }),
+    },
+    {
+      description: "Success",
+    },
+  ),
+  ...commonResponses,
+};

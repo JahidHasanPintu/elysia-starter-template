@@ -15,7 +15,7 @@ export const app = new Elysia()
   .use(
     opentelemetry({
       serviceName: baseConfig.SERVICE_NAME,
-    })
+    }),
   )
   .use(serverTiming())
   .use(
@@ -28,7 +28,7 @@ export const app = new Elysia()
           description: `API docs for ${baseConfig.SERVICE_NAME}`,
         },
       },
-    })
+    }),
   )
   .onError(({ error, code }) => {
     if (code === "NOT_FOUND")

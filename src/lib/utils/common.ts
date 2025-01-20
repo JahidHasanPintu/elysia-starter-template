@@ -11,7 +11,7 @@ export const commonResponses = {
     {
       description:
         "Bad Request. Usually due to missing parameters, or invalid parameters.",
-    }
+    },
   ),
   401: t.Object(
     {
@@ -22,7 +22,7 @@ export const commonResponses = {
     },
     {
       description: "Unauthorized. Due to missing or invalid authentication.",
-    }
+    },
   ),
   403: t.Object(
     {
@@ -34,7 +34,7 @@ export const commonResponses = {
     {
       description:
         "Forbidden. You do not have permission to access this resource or to perform this action.",
-    }
+    },
   ),
   404: t.Object(
     {
@@ -45,7 +45,7 @@ export const commonResponses = {
     },
     {
       description: "Not Found. The requested resource was not found.",
-    }
+    },
   ),
   429: t.Object(
     {
@@ -57,7 +57,7 @@ export const commonResponses = {
     {
       description:
         "Too Many Requests. You have exceeded the rate limit. Try again later.",
-    }
+    },
   ),
   500: t.Object(
     {
@@ -69,6 +69,6 @@ export const commonResponses = {
     {
       description:
         "Internal Server Error. This is a problem with the server that you cannot fix.",
-    }
+    },
   ),
 };

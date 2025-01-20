@@ -1,12 +1,17 @@
 import { Elysia, t } from "elysia";
-import { createNoteSchema, deleteNoteResponses, getNoteResponses, NoteSchema } from "./note.model";
+import {
+  createNoteSchema,
+  deleteNoteResponses,
+  getNoteResponses,
+  NoteSchema,
+} from "./note.model";
 import { NoteController } from "./note.controller";
 import { userMiddleware } from "../../../middlewares/auth-middleware";
 
 export const noteRouter = new Elysia({
   prefix: "/note",
   name: "CRUD Operations for Notes",
-  "analytic":true,
+  analytic: true,
   tags: ["Note"],
   detail: {
     description: "Notes CRUD operations",
@@ -17,47 +22,47 @@ export const noteRouter = new Elysia({
     note: NoteSchema,
   })
   .derive(({ request }) => userMiddleware(request))
-  .onError(({ error, code,  }) => {
-      console.error(error);
-      return {
-        message: "",
-        success: false,
-        data: null,
-        error: code.toString()
-      };
+  .onError(({ error, code }) => {
+    console.error(error);
+    return {
+      message: "",
+      success: false,
+      data: null,
+      error: code.toString(),
+    };
   })
   .get(
     "",
-    async ({ note, user, query}) => {
+    async ({ note, user, query }) => {
       return await note.getOwnerNotes(user.id, query.limit, query.offset);
     },
     {
-      query:t.Object({
+      query: t.Object({
         limit: t.Optional(t.Number()),
-        offset: t.Optional(t.Number())
+        offset: t.Optional(t.Number()),
       }),
-      response:getNoteResponses,
-      detail:{
-        "description":"Get all notes of the user",
-        "summary":"Get all notes"
-      }
-    }
+      response: getNoteResponses,
+      detail: {
+        description: "Get all notes of the user",
+        summary: "Get all notes",
+      },
+    },
   )
   .get(
     "/:id",
-    async ({ note, user, params:{id} }) => {
+    async ({ note, user, params: { id } }) => {
       return await note.getNoteById(id, user.id);
     },
     {
-      params:t.Object({
+      params: t.Object({
         id: t.String(),
       }),
       response: getNoteResponses,
-      detail:{
-        "description":"Get a note by Id",
-        "summary":"Get a note"
-      }
-    }
+      detail: {
+        description: "Get a note by Id",
+        summary: "Get a note",
+      },
+    },
   )
   .post(
     "",
@@ -67,42 +72,44 @@ export const noteRouter = new Elysia({
     {
       body: createNoteSchema,
       response: getNoteResponses,
-      detail:{
-        "description":"Create a new note",
-        "summary":"Create a note"
-      }
-    }
-  ).patch(
+      detail: {
+        description: "Create a new note",
+        summary: "Create a note",
+      },
+    },
+  )
+  .patch(
     "/:id",
-    async ({ body, note, user, params:{id} }) => {
+    async ({ body, note, user, params: { id } }) => {
       return await note.updateNoteById(id, body, user.id);
     },
     {
       body: createNoteSchema,
-      params:t.Object({
+      params: t.Object({
         id: t.String(),
       }),
       response: getNoteResponses,
-      detail:{
-        "description":"Update a note by Id",
-        "summary":"Update a note"
-      }
-    }
-  ).delete(
+      detail: {
+        description: "Update a note by Id",
+        summary: "Update a note",
+      },
+    },
+  )
+  .delete(
     "/:id",
-    async ({ note, user, params:{id} }) => {
+    async ({ note, user, params: { id } }) => {
       return await note.deleteNoteById(id, user.id);
     },
     {
-      params:t.Object({
+      params: t.Object({
         id: t.String(),
       }),
       response: deleteNoteResponses,
-      detail:{
-        "description":"Delete a note by Id",
-        "summary":"Delete a note"
-      }
-    }
+      detail: {
+        description: "Delete a note by Id",
+        summary: "Delete a note",
+      },
+    },
   )
   .delete(
     "",
@@ -111,9 +118,9 @@ export const noteRouter = new Elysia({
     },
     {
       response: deleteNoteResponses,
-      detail:{
-        "description":"Delete all notes of an user",
-        "summary":"Delete all notes"
-      }
-    }
-  )
+      detail: {
+        description: "Delete all notes of an user",
+        summary: "Delete all notes",
+      },
+    },
+  );

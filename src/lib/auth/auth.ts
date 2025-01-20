@@ -1,8 +1,15 @@
 import { betterAuth } from "better-auth";
 import { drizzleAdapter } from "better-auth/adapters/drizzle";
 import { db } from "../../db/index";
-import { jwt, openAPI } from "better-auth/plugins"
-import { user, account, verification, session, rateLimit, jwks } from "../../db/schema/auth";
+import { jwt, openAPI } from "better-auth/plugins";
+import {
+  user,
+  account,
+  verification,
+  session,
+  rateLimit,
+  jwks,
+} from "../../db/schema/auth";
 import { sendMail } from "../mail/mail";
 import { renderToStaticMarkup } from "react-dom/server";
 import { createElement } from "react";
@@ -17,13 +24,13 @@ export const auth = betterAuth({
       account: account,
       verification: verification,
       rateLimit: rateLimit,
-      jwks: jwks
-    }
+      jwks: jwks,
+    },
   }),
   user: {
     deleteUser: {
-        enabled: true // [!Code Highlight]
-    }
+      enabled: true, // [!Code Highlight]
+    },
   },
   rateLimit: {
     window: 60,
@@ -40,8 +47,8 @@ export const auth = betterAuth({
         return {
           window: 3600 * 12,
           max: 10,
-        }
-      }
+        };
+      },
     },
   },
   emailAndPassword: {
@@ -49,7 +56,9 @@ export const auth = betterAuth({
     requireEmailVerification: false,
     sendResetPassword: async ({ user, url }, request) => {
       const subject = "Reset your password";
-      const html = renderToStaticMarkup(createElement(AuthEmail, { message: subject, link: url }));
+      const html = renderToStaticMarkup(
+        createElement(AuthEmail, { message: subject, link: url }),
+      );
       await sendMail({
         to: user.email,
         subject: subject,
@@ -60,20 +69,21 @@ export const auth = betterAuth({
   emailVerification: {
     sendVerificationEmail: async ({ user, url, token }, request) => {
       const subject = "Verify your email address";
-      const html = renderToStaticMarkup(createElement(AuthEmail, { message: subject, link: url }));
+      const html = renderToStaticMarkup(
+        createElement(AuthEmail, { message: subject, link: url }),
+      );
       await sendMail({
         to: user.email,
         subject: subject,
         html: html,
       });
     },
-
   },
   plugins: [
     openAPI({
       path: "/docs",
     }),
-    jwt()
+    jwt(),
   ],
   socialProviders: {
     /*

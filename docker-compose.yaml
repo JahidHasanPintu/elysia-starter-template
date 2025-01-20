@@ -10,4 +10,3 @@ services:
       OTEL_EXPORTER_OTLP_ENDPOINT: http://tracing:4318
       OTEL_EXPORTER_OTLP_PROTOCOL: http/protobuf
       DATABASE_URL: ${DATABASE_URL}
-

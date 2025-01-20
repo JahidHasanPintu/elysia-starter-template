@@ -1,15 +1,15 @@
-import { Client } from 'minio';
-import { Buffer } from 'buffer';
-import { getMinioConfig } from '../utils/env';
+import { Client } from "minio";
+import { Buffer } from "buffer";
+import { getMinioConfig } from "../utils/env";
 
 // MinIO client configuration
 
-const minioConfig = getMinioConfig()
+const minioConfig = getMinioConfig();
 const minioClient = new Client({
   endPoint: minioConfig.MINIO_ENDPOINT_URL,
   useSSL: false,
   accessKey: minioConfig.MINIO_ACCESS_KEY,
-  secretKey: minioConfig.MINIO_SECRET_KEY
+  secretKey: minioConfig.MINIO_SECRET_KEY,
 });
 
 const BUCKET_NAME = minioConfig.MINIO_BUCKET_NAME;
@@ -44,7 +44,7 @@ const fileToBuffer = async (file: File | Blob): Promise<Buffer> => {
 export const uploadFileAndGetUrl = async (
   filename: string,
   file: Buffer | File | Blob,
-  contentType?: string
+  contentType?: string,
 ): Promise<string> => {
   try {
     await ensureBucket();
@@ -54,11 +54,11 @@ export const uploadFileAndGetUrl = async (
 
     // If file is from form-data and no contentType is provided, use its type
     const metadata: Record<string, string> = {};
-    if (!contentType && 'type' in file) {
+    if (!contentType && "type" in file) {
       contentType = file.type;
     }
     if (contentType) {
-      metadata['Content-Type'] = contentType;
+      metadata["Content-Type"] = contentType;
     }
 
     // Upload the file
@@ -67,19 +67,19 @@ export const uploadFileAndGetUrl = async (
       filename,
       fileBuffer,
       fileBuffer.length,
-      metadata
+      metadata,
     );
 
     // Generate and return signed URL
     const url = await minioClient.presignedGetObject(
       BUCKET_NAME,
       filename,
-      SIGNED_URL_EXPIRY
+      SIGNED_URL_EXPIRY,
     );
 
     return url;
   } catch (error) {
-    console.error('Error uploading file:', error);
+    console.error("Error uploading file:", error);
     if (error instanceof Error) {
       throw new Error(`Failed to upload file: ${error.message}`);
     }
@@ -100,13 +100,14 @@ export const getSignedUrl = async (filename: string): Promise<string> => {
     const url = await minioClient.presignedGetObject(
       BUCKET_NAME,
       filename,
-      SIGNED_URL_EXPIRY
+      SIGNED_URL_EXPIRY,
     );
 
     return url;
   } catch (error) {
-    console.error('Error generating signed URL:', error);
-    if (error instanceof Error) throw new Error(`Failed to generate signed URL: ${error.message}`);
+    console.error("Error generating signed URL:", error);
+    if (error instanceof Error)
+      throw new Error(`Failed to generate signed URL: ${error.message}`);
     throw new Error(`Failed to generate signed URL: ${error}`);
   }
 };
@@ -120,8 +121,9 @@ export const deleteFile = async (filename: string): Promise<void> => {
   try {
     await minioClient.removeObject(BUCKET_NAME, filename);
   } catch (error) {
-    console.error('Error deleting file:', error);
-    if (error instanceof Error) throw new Error(`Failed to delete file: ${error.message}`);
+    console.error("Error deleting file:", error);
+    if (error instanceof Error)
+      throw new Error(`Failed to delete file: ${error.message}`);
     throw new Error(`Failed to delete file: ${error}`);
   }
 };
@@ -140,4 +142,3 @@ export const deleteFile = async (filename: string): Promise<void> => {
 // Delete a file
 // await deleteFile('hello.txt');
 // console.log('File deleted successfully');
-

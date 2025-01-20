@@ -50,7 +50,7 @@ export const api = new Elysia({
           },
           {
             description: "Success",
-          }
+          },
         ),
         404: t.Object(
           {
@@ -65,8 +65,8 @@ export const api = new Elysia({
           },
           {
             description: "Not found",
-          }
+          },
         ),
       },
-    }
+    },
   );
