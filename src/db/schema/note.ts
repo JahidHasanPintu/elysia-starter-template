@@ -1,4 +1,4 @@
-import { pgTable, text, timestamp } from "drizzle-orm/pg-core";
+import { index, pgTable, text, timestamp } from "drizzle-orm/pg-core";
 import { createId } from '@paralleldrive/cuid2'
 import { user } from "./auth";
 
@@ -10,4 +10,7 @@ export const note = pgTable("note", {
   updatedAt: timestamp(),
   deletedAt: timestamp(),
   ownerId: text().notNull().references(() => user.id)
-})
+},
+
+(table) => [index("idx_note_ownerid").on(table.ownerId), index("idx_note_createdat").on(table.createdAt), index("idx_note_deletedat").on(table.deletedAt)]
+)

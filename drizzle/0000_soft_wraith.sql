@@ -74,4 +74,15 @@ CREATE TABLE "note" (
 --> statement-breakpoint
 ALTER TABLE "auth"."account" ADD CONSTRAINT "account_user_id_user_id_fk" FOREIGN KEY ("user_id") REFERENCES "auth"."user"("id") ON DELETE no action ON UPDATE no action;--> statement-breakpoint
 ALTER TABLE "auth"."session" ADD CONSTRAINT "session_user_id_user_id_fk" FOREIGN KEY ("user_id") REFERENCES "auth"."user"("id") ON DELETE no action ON UPDATE no action;--> statement-breakpoint
-ALTER TABLE "note" ADD CONSTRAINT "note_ownerId_user_id_fk" FOREIGN KEY ("ownerId") REFERENCES "auth"."user"("id") ON DELETE no action ON UPDATE no action;
+ALTER TABLE "note" ADD CONSTRAINT "note_ownerId_user_id_fk" FOREIGN KEY ("ownerId") REFERENCES "auth"."user"("id") ON DELETE no action ON UPDATE no action;--> statement-breakpoint
+CREATE INDEX "idx_auth_account_userid" ON "auth"."account" USING btree ("user_id");--> statement-breakpoint
+CREATE INDEX "idx_auth_account_refreshtokenexpiresat" ON "auth"."account" USING btree ("refresh_token_expires_at");--> statement-breakpoint
+CREATE INDEX "idx_auth_account_providerid" ON "auth"."account" USING btree ("provider_id");--> statement-breakpoint
+CREATE INDEX "idx_auth_ratelimit_key" ON "auth"."rate_limit" USING btree ("key");--> statement-breakpoint
+CREATE INDEX "idx_auth_session_ip_address" ON "auth"."session" USING btree ("ip_address");--> statement-breakpoint
+CREATE INDEX "idx_auth_session_userid" ON "auth"."session" USING btree ("user_id");--> statement-breakpoint
+CREATE INDEX "idx_auth_verification_identifier" ON "auth"."verification" USING btree ("identifier");--> statement-breakpoint
+CREATE INDEX "idx_auth_verification_expires_at" ON "auth"."verification" USING btree ("expires_at");--> statement-breakpoint
+CREATE INDEX "idx_note_ownerid" ON "note" USING btree ("ownerId");--> statement-breakpoint
+CREATE INDEX "idx_note_createdat" ON "note" USING btree ("createdAt");--> statement-breakpoint
+CREATE INDEX "idx_note_deletedat" ON "note" USING btree ("deletedAt");
