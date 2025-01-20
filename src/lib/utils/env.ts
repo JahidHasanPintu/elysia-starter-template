@@ -12,7 +12,8 @@ const envSchema = z.object({
   // MinIO
   MINIO_ACCESS_KEY: z.string(),
   MINIO_SECRET_KEY: z.string().min(8),
-  MINIO_ENDPOINT_URL: z.string().url(),
+  MINIO_ENDPOINT_URL: z.string(),
+  MINIO_PORT: z.string().max(5),
   MINIO_BUCKET_NAME: z.string(),
 
   // Auth
@@ -98,6 +99,7 @@ export const getMinioConfig = (): Pick<
   | "MINIO_ACCESS_KEY"
   | "MINIO_SECRET_KEY"
   | "MINIO_ENDPOINT_URL"
+  | "MINIO_PORT"
   | "MINIO_BUCKET_NAME"
 > => {
   const config = getConfig();
@@ -105,6 +107,7 @@ export const getMinioConfig = (): Pick<
     MINIO_ACCESS_KEY: config.MINIO_ACCESS_KEY,
     MINIO_SECRET_KEY: config.MINIO_SECRET_KEY,
     MINIO_ENDPOINT_URL: config.MINIO_ENDPOINT_URL,
+    MINIO_PORT: config.MINIO_PORT,
     MINIO_BUCKET_NAME: config.MINIO_BUCKET_NAME,
   };
 };

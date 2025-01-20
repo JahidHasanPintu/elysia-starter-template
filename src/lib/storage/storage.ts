@@ -7,6 +7,7 @@ import { getMinioConfig } from "../utils/env";
 const minioConfig = getMinioConfig();
 const minioClient = new Client({
   endPoint: minioConfig.MINIO_ENDPOINT_URL,
+  port: +minioConfig.MINIO_PORT,
   useSSL: false,
   accessKey: minioConfig.MINIO_ACCESS_KEY,
   secretKey: minioConfig.MINIO_SECRET_KEY,

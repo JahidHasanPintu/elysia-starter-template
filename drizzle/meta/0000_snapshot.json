@@ -1,5 +1,5 @@
 {
-  "id": "b58e6198-1838-4903-a137-a91a6605653c",
+  "id": "ef04442a-1d7f-4077-a86f-93dbe5dd3365",
   "prevId": "00000000-0000-0000-0000-000000000000",
   "version": "7",
   "dialect": "postgresql",
@@ -140,8 +140,12 @@
           "tableFrom": "account",
           "tableTo": "user",
           "schemaTo": "auth",
-          "columnsFrom": ["user_id"],
-          "columnsTo": ["id"],
+          "columnsFrom": [
+            "user_id"
+          ],
+          "columnsTo": [
+            "id"
+          ],
           "onDelete": "no action",
           "onUpdate": "no action"
         }
@@ -333,8 +337,12 @@
           "tableFrom": "session",
           "tableTo": "user",
           "schemaTo": "auth",
-          "columnsFrom": ["user_id"],
-          "columnsTo": ["id"],
+          "columnsFrom": [
+            "user_id"
+          ],
+          "columnsTo": [
+            "id"
+          ],
           "onDelete": "no action",
           "onUpdate": "no action"
         }
@@ -344,7 +352,9 @@
         "session_token_unique": {
           "name": "session_token_unique",
           "nullsNotDistinct": false,
-          "columns": ["token"]
+          "columns": [
+            "token"
+          ]
         }
       },
       "policies": {},
@@ -405,7 +415,9 @@
         "user_email_unique": {
           "name": "user_email_unique",
           "nullsNotDistinct": false,
-          "columns": ["email"]
+          "columns": [
+            "email"
+          ]
         }
       },
       "policies": {},
@@ -492,6 +504,102 @@
       "checkConstraints": {},
       "isRLSEnabled": false
     },
+    "public.note_attachments": {
+      "name": "note_attachments",
+      "schema": "",
+      "columns": {
+        "id": {
+          "name": "id",
+          "type": "text",
+          "primaryKey": true,
+          "notNull": true
+        },
+        "title": {
+          "name": "title",
+          "type": "text",
+          "primaryKey": false,
+          "notNull": false,
+          "default": "'Untitled'"
+        },
+        "created_at": {
+          "name": "created_at",
+          "type": "timestamp",
+          "primaryKey": false,
+          "notNull": true,
+          "default": "now()"
+        },
+        "deleted_at": {
+          "name": "deleted_at",
+          "type": "timestamp",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "file_path": {
+          "name": "file_path",
+          "type": "text",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "note_id": {
+          "name": "note_id",
+          "type": "text",
+          "primaryKey": false,
+          "notNull": true
+        }
+      },
+      "indexes": {
+        "idx_attachment_attachmentId": {
+          "name": "idx_attachment_attachmentId",
+          "columns": [
+            {
+              "expression": "note_id",
+              "isExpression": false,
+              "asc": true,
+              "nulls": "last"
+            }
+          ],
+          "isUnique": false,
+          "concurrently": false,
+          "method": "btree",
+          "with": {}
+        },
+        "idx_attachment_deletedat": {
+          "name": "idx_attachment_deletedat",
+          "columns": [
+            {
+              "expression": "deleted_at",
+              "isExpression": false,
+              "asc": true,
+              "nulls": "last"
+            }
+          ],
+          "isUnique": false,
+          "concurrently": false,
+          "method": "btree",
+          "with": {}
+        }
+      },
+      "foreignKeys": {
+        "note_attachments_note_id_note_id_fk": {
+          "name": "note_attachments_note_id_note_id_fk",
+          "tableFrom": "note_attachments",
+          "tableTo": "note",
+          "columnsFrom": [
+            "note_id"
+          ],
+          "columnsTo": [
+            "id"
+          ],
+          "onDelete": "no action",
+          "onUpdate": "no action"
+        }
+      },
+      "compositePrimaryKeys": {},
+      "uniqueConstraints": {},
+      "policies": {},
+      "checkConstraints": {},
+      "isRLSEnabled": false
+    },
     "public.note": {
       "name": "note",
       "schema": "",
@@ -514,27 +622,27 @@
           "primaryKey": false,
           "notNull": false
         },
-        "createdAt": {
-          "name": "createdAt",
+        "created_at": {
+          "name": "created_at",
           "type": "timestamp",
           "primaryKey": false,
           "notNull": true,
           "default": "now()"
         },
-        "updatedAt": {
-          "name": "updatedAt",
+        "updated_at": {
+          "name": "updated_at",
           "type": "timestamp",
           "primaryKey": false,
           "notNull": false
         },
-        "deletedAt": {
-          "name": "deletedAt",
+        "deleted_at": {
+          "name": "deleted_at",
           "type": "timestamp",
           "primaryKey": false,
           "notNull": false
         },
-        "ownerId": {
-          "name": "ownerId",
+        "owner_id": {
+          "name": "owner_id",
           "type": "text",
           "primaryKey": false,
           "notNull": true
@@ -545,7 +653,7 @@
           "name": "idx_note_ownerid",
           "columns": [
             {
-              "expression": "ownerId",
+              "expression": "owner_id",
               "isExpression": false,
               "asc": true,
               "nulls": "last"
@@ -560,7 +668,7 @@
           "name": "idx_note_createdat",
           "columns": [
             {
-              "expression": "createdAt",
+              "expression": "created_at",
               "isExpression": false,
               "asc": true,
               "nulls": "last"
@@ -575,7 +683,7 @@
           "name": "idx_note_deletedat",
           "columns": [
             {
-              "expression": "deletedAt",
+              "expression": "deleted_at",
               "isExpression": false,
               "asc": true,
               "nulls": "last"
@@ -588,13 +696,17 @@
         }
       },
       "foreignKeys": {
-        "note_ownerId_user_id_fk": {
-          "name": "note_ownerId_user_id_fk",
+        "note_owner_id_user_id_fk": {
+          "name": "note_owner_id_user_id_fk",
           "tableFrom": "note",
           "tableTo": "user",
           "schemaTo": "auth",
-          "columnsFrom": ["ownerId"],
-          "columnsTo": ["id"],
+          "columnsFrom": [
+            "owner_id"
+          ],
+          "columnsTo": [
+            "id"
+          ],
           "onDelete": "no action",
           "onUpdate": "no action"
         }

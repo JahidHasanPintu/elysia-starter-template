@@ -13,7 +13,7 @@ export type CreateNoteType = Pick<
   "title" | "content"
 >;
 
-export const createNoteSchema = t.Pick(NoteSchema, ["title", "content"]);
+export const createNoteSchema =t.Partial(t.Pick(NoteSchema, ["title", "content"]))
 
 export const getNoteResponses = {
   200: t.Object(

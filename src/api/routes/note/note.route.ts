@@ -50,8 +50,8 @@ export const noteRouter = new Elysia({
   )
   .get(
     "/:id",
-    async ({ note, user, params: { id } }) => {
-      return await note.getNoteById(id, user.id);
+    async ({ note, user, params }) => {
+      return await note.getNoteById(params.id, user.id);
     },
     {
       params: t.Object({
