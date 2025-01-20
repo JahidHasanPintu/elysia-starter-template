@@ -44,7 +44,7 @@ export const noteRouter = new Elysia({
     }
   )
   .get(
-    ":id",
+    "/:id",
     async ({ note, user, params:{id} }) => {
       return await note.getNoteById(id, user.id);
     },
@@ -73,7 +73,7 @@ export const noteRouter = new Elysia({
       }
     }
   ).patch(
-    ":id",
+    "/:id",
     async ({ body, note, user, params:{id} }) => {
       return await note.updateNoteById(id, body, user.id);
     },
@@ -89,7 +89,7 @@ export const noteRouter = new Elysia({
       }
     }
   ).delete(
-    ":id",
+    "/:id",
     async ({ note, user, params:{id} }) => {
       return await note.deleteNoteById(id, user.id);
     },

@@ -16,6 +16,13 @@ CREATE TABLE "auth"."account" (
 	"updated_at" timestamp NOT NULL
 );
 --> statement-breakpoint
+CREATE TABLE "auth"."jwks" (
+	"id" text PRIMARY KEY NOT NULL,
+	"public_key" text NOT NULL,
+	"private_key" text NOT NULL,
+	"created_at" timestamp NOT NULL
+);
+--> statement-breakpoint
 CREATE TABLE "auth"."rate_limit" (
 	"id" text PRIMARY KEY NOT NULL,
 	"key" text,

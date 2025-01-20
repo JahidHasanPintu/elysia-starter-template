@@ -9,7 +9,8 @@ import { api } from "./api";
 const baseConfig = getBaseConfig();
 
 validateEnv();
-const app = new Elysia()
+
+export const app = new Elysia()
   .use(cors())
   .use(
     opentelemetry({

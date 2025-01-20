@@ -54,3 +54,10 @@ export const rateLimit = authSchema.table("rate_limit", {
   count: integer('count'),
   lastRequest: integer('last_request')
 });
+
+export const jwks = authSchema.table("jwks", {
+  id: text("id").primaryKey(),
+  publicKey: text("public_key").notNull(),
+  privateKey: text("private_key").notNull(),
+  createdAt: timestamp("created_at").notNull(),
+});

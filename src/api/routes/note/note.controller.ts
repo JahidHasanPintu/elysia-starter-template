@@ -64,8 +64,12 @@ export class NoteController {
         )
       )
       .execute();
+    let successStatus = true;
+    if(result.length===0){
+      successStatus = false
+    };
     return {
-      success: true,
+      success: successStatus,
       data: result,
       message: "",
       error: null,
