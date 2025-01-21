@@ -6,7 +6,7 @@
     "format": "prettier . --write",
     "dev": "bun run --watch src/index.ts",
     "services:up": "docker compose --env-file .env.services -f docker-compose.services.yaml up -d --build && bun run db:migrate",
-    "services:dowm": "docker compose --env-file .env.services -f docker-compose.services.yaml down",
+    "services:down": "docker compose --env-file .env.services -f docker-compose.services.yaml down",
     "email": "email dev --dir src/emails",
     "auth:generate": "bun x @better-auth/cli generate --config src/lib/auth/auth.ts",
     "db:studio": "drizzle-kit studio",
