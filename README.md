@@ -23,7 +23,7 @@ A microservice starter template built with Bun, Elysia, PostgreSQL, and MinIO.
 1. Clone the repository:
 
 ```bash
-git clone <your-repository-url>
+git clone ssh://git@git.planpostai.com:2222/planpostai/template-elysia.git microservice-start
 cd microservice-start
 ```
 
