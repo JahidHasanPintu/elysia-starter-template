@@ -30,11 +30,11 @@ describe("Attachment", () => {
       file: testFile,
       noteId: noteId,
     });
-    
+
     if (!data?.data) {
       throw new Error("create attachment api did not return data");
     }
-    
+
     attachmentId = data.data[0].id;
     expect(data.data[0].title).toBe("test attachment");
     expect(data.data[0].noteId).toBe(noteId);
@@ -44,10 +44,10 @@ describe("Attachment", () => {
   // Get all attachments for a note
   it("Get All Attachments for a Note", async () => {
     const { data } = await testClientApp.api.attachment.get({
-      query: { 
+      query: {
         noteId: noteId,
-        limit: 10, 
-        offset: 0 
+        limit: 10,
+        offset: 0,
       },
     });
     expect(data?.success).toBe(true);
@@ -57,7 +57,9 @@ describe("Attachment", () => {
 
   // Get single attachment
   it("Get Created Attachment", async () => {
-    const { data } = await testClientApp.api.attachment({ id: attachmentId }).get();
+    const { data } = await testClientApp.api
+      .attachment({ id: attachmentId })
+      .get();
     expect(data?.success).toBe(true);
     expect(data?.data[0].id).toBe(attachmentId);
     expect(data?.data[0].noteId).toBe(noteId);
@@ -73,14 +75,16 @@ describe("Attachment", () => {
       file: testFile,
       noteId: noteId,
     });
-    
+
     if (!createData?.data) {
-        throw new Error("CreateData should not be null");
-      }
+      throw new Error("CreateData should not be null");
+    }
 
     const deleteAttachmentId = createData?.data[0].id;
     if (!deleteAttachmentId) {
-      throw new Error("Failed to receive attachmentId in delete attachment test");
+      throw new Error(
+        "Failed to receive attachmentId in delete attachment test",
+      );
     }
 
     // Delete the attachment
@@ -114,28 +118,31 @@ describe("Attachment", () => {
     });
 
     // Delete all attachments for the note
-    const { data: deleteData } = await testClientApp.api.attachment.delete({},{
-      query: { noteId: noteId }
-    });
+    const { data: deleteData } = await testClientApp.api.attachment.delete(
+      {},
+      {
+        query: { noteId: noteId },
+      },
+    );
     expect(deleteData?.success).toBe(true);
 
     // Verify all attachments are deleted
     const { data: verifyData } = await testClientApp.api.attachment.get({
-      query: { 
+      query: {
         noteId: noteId,
-        limit: 10, 
-        offset: 0 
+        limit: 10,
+        offset: 0,
       },
     });
     expect(verifyData?.data).toHaveLength(0);
   });
 
-
-
   // Error cases
   it("Should handle invalid attachment ID", async () => {
     const invalidId = "invalid-id";
-    const { data, error } = await testClientApp.api.attachment({ id: invalidId }).get();
+    const { data, error } = await testClientApp.api
+      .attachment({ id: invalidId })
+      .get();
     expect(data?.data?.length).toBe(0);
   });
 

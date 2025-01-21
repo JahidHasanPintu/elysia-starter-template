@@ -5,16 +5,16 @@ services:
       COLLECTOR_ZIPKIN_HOST_PORT: 9411
       COLLECTOR_OTLP_ENABLED: true
     ports:
-      - "6831:6831/udp"   # jaeger-agent UDP accept compact thrift protocol
-      - "6832:6832/udp"   # jaeger-agent UDP accept binary thrift protocol
-      - "5778:5778"       # jaeger-agent HTTP serve configs
-      - "16686:16686"     # jaeger-query HTTP serve frontend/API
-      - "4317:4317"       # OTLP gRPC
-      - "4318:4318"       # OTLP HTTP
-      - "14250:14250"     # jaeger-collector gRPC
-      - "14268:14268"     # jaeger-collector HTTP accept spans
-      - "14269:14269"     # jaeger-collector HTTP admin
-      - "9411:9411"       # zipkin-collector HTTP accept spans
+      - "6831:6831/udp" # jaeger-agent UDP accept compact thrift protocol
+      - "6832:6832/udp" # jaeger-agent UDP accept binary thrift protocol
+      - "5778:5778" # jaeger-agent HTTP serve configs
+      - "16686:16686" # jaeger-query HTTP serve frontend/API
+      - "4317:4317" # OTLP gRPC
+      - "4318:4318" # OTLP HTTP
+      - "14250:14250" # jaeger-collector gRPC
+      - "14268:14268" # jaeger-collector HTTP accept spans
+      - "14269:14269" # jaeger-collector HTTP admin
+      - "9411:9411" # zipkin-collector HTTP accept spans
 
   db:
     image: postgres:latest

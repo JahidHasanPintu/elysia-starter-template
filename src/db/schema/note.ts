@@ -25,7 +25,6 @@ export const note = pgTable(
   ],
 );
 
-
 export const attachment = pgTable(
   "note_attachments",
   {

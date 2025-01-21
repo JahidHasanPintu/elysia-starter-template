@@ -5,20 +5,25 @@ import { commonResponses } from "../../../../lib/utils/common";
 
 export const _AttachmentSchema = createSelectSchema(attachment);
 
-export const AttachmentSchema = t.Omit(_AttachmentSchema, ["deletedAt", "filePath"]);
+export const AttachmentSchema = t.Omit(_AttachmentSchema, [
+  "deletedAt",
+  "filePath",
+]);
 
-export const AttachmentWithUrlSchema = t.Composite([ AttachmentSchema,t.Object({
-  attachmentUrl: t.String({default:"http://example.com/attachment_abcd"}),
-})])
+export const AttachmentWithUrlSchema = t.Composite([
+  AttachmentSchema,
+  t.Object({
+    attachmentUrl: t.String({ default: "http://example.com/attachment_abcd" }),
+  }),
+]);
 
 export const createAttachmentSchema = t.Object({
   title: t.Optional(t.String()),
   noteId: t.String(),
   file: t.File(),
-})
+});
 
 export type CreateAttachmentType = typeof createAttachmentSchema.static;
-
 
 export const getAttachmentResponses = {
   200: t.Object(

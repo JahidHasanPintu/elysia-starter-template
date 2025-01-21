@@ -25,7 +25,7 @@ export const attachmentRouter = new Elysia({
   .onError(({ path, error, code }) => {
     console.error(error);
     return {
-      message: path+" Error:"+code,
+      message: path + " Error:" + code,
       success: false,
       data: null,
       error: code.toString(),
@@ -34,11 +34,16 @@ export const attachmentRouter = new Elysia({
   .get(
     "",
     async ({ attachment, user, query }) => {
-      return await attachment.getAttachmentsByNoteId(query.noteId, user.id, query.limit, query.offset);
+      return await attachment.getAttachmentsByNoteId(
+        query.noteId,
+        user.id,
+        query.limit,
+        query.offset,
+      );
     },
     {
       query: t.Object({
-        noteId:t.String(),
+        noteId: t.String(),
         limit: t.Optional(t.Number()),
         offset: t.Optional(t.Number()),
       }),
@@ -63,7 +68,7 @@ export const attachmentRouter = new Elysia({
         description: "Get a attachment by Id",
         summary: "Get a attachment",
       },
-    },  
+    },
   )
   .post(
     "",
@@ -98,11 +103,14 @@ export const attachmentRouter = new Elysia({
   .delete(
     "",
     async ({ attachment, user, query }) => {
-      return await attachment.deleteAllAttachmentsByNoteId(query.noteId, user.id);
+      return await attachment.deleteAllAttachmentsByNoteId(
+        query.noteId,
+        user.id,
+      );
     },
     {
       query: t.Object({
-        noteId:t.String(),
+        noteId: t.String(),
       }),
       response: deleteAttachmentResponses,
       detail: {

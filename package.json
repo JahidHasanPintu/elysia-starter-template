@@ -2,18 +2,20 @@
   "name": "app",
   "version": "1.0.50",
   "scripts": {
-    "test": "bun test api",
+    "test": "bun run format && bun test api",
     "format": "prettier . --write",
     "dev": "bun run --watch src/index.ts",
+    "services:up": "docker compose --env-file .env.services -f docker-compose.services.yaml up -d --build && bun run db:migrate",
+    "services:dowm": "docker compose --env-file .env.services -f docker-compose.services.yaml down",
     "email": "email dev --dir src/emails",
-    "auth:generate": "bun x @better-auth/cli generate --config src/lib/auth/auth.ts --output src/db/schema/auth.ts && drizzle-kit migrate",
+    "auth:generate": "bun x @better-auth/cli generate --config src/lib/auth/auth.ts",
     "db:studio": "drizzle-kit studio",
     "db:check": "drizzle-kit check",
     "db:generate": "drizzle-kit generate",
     "db:migrate": "drizzle-kit migrate",
     "db:pull": "drizzle-kit pull",
     "db:push": "drizzle-kit push",
-    "build": "bun build --compile --minify-whitespace --minify-syntax --target bun --outfile server ./src/index.ts"
+    "build": "bun run test && bun build --compile --minify-whitespace --minify-syntax --target bun --outfile server ./src/index.ts"
   },
   "dependencies": {
     "@elysiajs/cors": "^1.2.0",
