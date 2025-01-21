@@ -41,14 +41,15 @@ cp .env.services.example .env.services
 
 ```env
 PORT=3000
-SERVICE_NAME=<your-service-name>
-DATABASE_URL="postgresql://..."
+SERVICE_NAME=microservice_start
+# DB_URL FORMAT: "postgresql://<username>:<password>@<host>:<port>/<db_name>" 
+DATABASE_URL="postgresql://postgres:hellodev@localhost:5432/postgres"
 MINIO_ACCESS_KEY=
 MINIO_SECRET_KEY=
-MINIO_ENDPOINT_URL=
-MINIO_PORT=
-MINIO_BUCKET_NAME=
-BETTER_AUTH_SECRET=
+MINIO_ENDPOINT_URL=127.0.0.1
+MINIO_PORT=9000
+MINIO_BUCKET_NAME=microservice-start
+BETTER_AUTH_SECRET=a_must_change_randm_word
 
 # DO NOT CHANGE
 BETTER_AUTH_URL=http://127.0.0.1:${PORT}
@@ -57,12 +58,12 @@ BETTER_AUTH_URL=http://127.0.0.1:${PORT}
 **.env.services**
 
 ```env
-DB_USER=
-DB_PASSWORD=
-DB_PORT=
+DB_USER=postgres
+DB_PASSWORD=hellodev
+DB_PORT=5432
 
-MINIO_ROOT_USER=
-MINIO_ROOT_PASSWORD=
+MINIO_ROOT_USER=microservice_admin
+MINIO_ROOT_PASSWORD=microservice_admin_pass
 ```
 
 ## Running the Project
