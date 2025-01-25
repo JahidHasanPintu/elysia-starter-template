@@ -43,4 +43,4 @@ yarn-error.log*
 package-lock.json
 **/*.bun
 
-./server
+server
