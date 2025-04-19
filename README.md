@@ -4,7 +4,7 @@ A microservice starter template built with Bun, Elysia, PostgreSQL, and MinIO.
 
 ## Prerequisites
 
-- [Bun](https://bun.sh/) installed
+- [Bun](https://bun.sh/) installed.
 - Docker and Docker Compose
 - Node.js (for development tools)
 
